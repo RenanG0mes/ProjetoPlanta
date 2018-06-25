@@ -10,7 +10,6 @@
       Sensor de umidade
       Display Oled
       Servo Motor
-      Modulo GPS
       Modulo PIR
       Ponte H
       BME280
@@ -23,4 +22,3 @@ Data de entrega: 18/06/2018
 
 Um sensor será utilizado para verificar a umidade do solo, caso a umidade esteja muito baixa, um sistema de irrigação será acionado, este sistema será composto por um reservatório de água, bomba e ponte H. Caso seja necessário, também será possível ativar o sistema de irrigação via bluetooth.
 Ao detectar a presença de movimento próxima ao vaso, um personagem temático escondido será revelado ao som de uma música sendo tocada pelo buzzer da mbed Application Board, além disso será exibida a temperatura, umidade, pressão do ambiente e humidade do solo em um display oled, estes dados também serão transmitidos via bluetooth.
-O módulo GPS informará a localização do vaso via bluetooth. (Talvez registrar log de localizações)
