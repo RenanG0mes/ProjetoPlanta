@@ -29,7 +29,6 @@ DigitalOut motorPumpIn1(p29); //In1
 DigitalOut motorPumpIn2(p30); //In2
 
 // set motion sensor digital pin
-//DigitalIn motionSensor(p15); 
 PinDetect motionSensor(p15);
 
 // set the servo motor pin
@@ -92,16 +91,16 @@ void MotorOff(void){
 void Menu(void){
     if (device.writable()){
     // send menu
-    device.printf("\n-------------------Menu--------------------\r\n");
-    device.printf("Receber menu: (m)\r\n");
-    device.printf("Para receber informacoes: (i)\r\n");
-    device.printf("Para irrigar (PUMP): (p) \r\n");
-    device.printf("Para ligar a bomba: (b) \r\n"); 
-    device.printf("Para desligar a bomba: (o)\r\n");
-    device.printf("Para intensidade de luz: (l) \r\n");
-    device.printf("Para subir o boneco: (s) \r\n");
-    device.printf("Para descer o boneco: (d) \r\n");
-    device.printf("---------------------------------------------\r\n");   
+        device.printf("\n-------------------Menu--------------------\r\n");
+        device.printf("Receber menu: (m)\r\n");
+        device.printf("Para receber informacoes: (i)\r\n");
+        device.printf("Para irrigar (PUMP): (p) \r\n");
+        device.printf("Para ligar a bomba: (b) \r\n"); 
+        device.printf("Para desligar a bomba: (o)\r\n");
+        device.printf("Para intensidade de luz: (l) \r\n");
+        device.printf("Para subir o boneco: (s) \r\n");
+        device.printf("Para descer o boneco: (d) \r\n");
+        device.printf("---------------------------------------------\r\n");   
     }    
 }
 
@@ -114,13 +113,6 @@ double reservatory = reservatory_range.read()*100;
 
 double percent = (reservatory - reservMIN)*100/(reservMAX - reservMIN); 
 
-//Utilizados para teste quando tudo estiver pronto.
-//lcd.cls();
-//lcd.locate(0,15);
-//lcd.printf("Reading value: %.1f", reservatory);
-//lcd.locate(0,3);
-//lcd.printf("percent: %.1f", percent);
-
 return percent;
 }
 
@@ -132,17 +124,6 @@ double lumMIN = 67;
 double luminosity = luminosity_range.read()*100;
 
 double percent = (lumMAX - luminosity)*100/(lumMAX - lumMIN); 
-
-//gOled1.printf("Teste %.2f .\r\n", percent);
-//gOled1.printf("Lum %.2f .\r\n", luminosity);
-//gOled1.display();
-
-//Utilizados para teste quando tudo estiver pronto.
-//lcd.cls();
-//lcd.locate(0,15);
-//lcd.printf("Reading value: %.1f", luminosity);
-//lcd.locate(0,3);
-//lcd.printf("percent: %.1f", percent);
 
 return percent;
 }
@@ -160,9 +141,7 @@ void GetInfo(void){
     double perRes = ReadRes();
     
     if (device.writable()){
-        LCDMenu();                
-        //gOled1.printf("Enviou Info.\r\n");                 
-        //gOled1.display();
+        LCDMenu();
         device.printf("Luminosidade: %.2f (%)\r\n",perLum);
         device.printf("Humidade(Solo): %.2f (%)\r\n",perRes);
         device.printf("Humidade(Ar): %.2f (%)\r\n",sensorBME.getHumidity());
@@ -185,86 +164,72 @@ void Rx_interrupt(void){
         char buff2 = device.getc();
         
         switch(cond) {
-            case 'm':
-            //lcd.cls();
-            //lcd.locate(0,15);
-            //lcd.printf("Mandou menu!");
-            LCDMenu();
-            gOled1.printf("Menu. \r\n"); 
-            gOled1.display();
-            Menu();
+                case 'm':
+                LCDMenu();
+                gOled1.printf("Menu. \r\n"); 
+                gOled1.display();
+                Menu();
             break;
-            case 'i': 
-            //lcd.cls();
-            //lcd.locate(0,15);
-            //lcd.printf("SendValue: %c", cond);
-            LCDMenu();
-            device.printf("---------------Info----------------\r\n");
-            gOled1.printf("Info. \r\n");
-            gOled1.display();
-            GetInfo();
-            device.printf("-----------------------------------\r\n");
+                case 'i': 
+                LCDMenu();
+                device.printf("---------------Info----------------\r\n");
+                gOled1.printf("Info. \r\n");
+                gOled1.display();
+                GetInfo();
+                device.printf("-----------------------------------\r\n");
             break;
-            case 'p':
-            //lcd.cls();
-            //lcd.locate(0,15);
-            device.printf("Pump no motor! \r\n");
-            LCDMenu();
-            gOled1.printf("PUMP. \r\n");
-            gOled1.display();
-            MotorPump();
+                case 'p':
+                device.printf("Pump no motor! \r\n");
+                LCDMenu();
+                gOled1.printf("PUMP. \r\n");
+                gOled1.display();
+                MotorPump();
             break;
-            case 'o':
-            //lcd.cls();
-            //lcd.locate(0,15);
-            device.printf("Desligou o motor! \r\n");
-            LCDMenu();
-            gOled1.printf("MotorOff. \r\n");
-            gOled1.display();
-            MotorOff();
+                case 'o':
+                device.printf("Desligou o motor! \r\n");
+                LCDMenu();
+                gOled1.printf("MotorOff. \r\n");
+                gOled1.display();
+                MotorOff();
             break;
-            case 'b':
-            LCDMenu();
-            device.printf("Ligou o motor! \r\n"); 
-            gOled1.printf("MotorOn. \r\n");
-            gOled1.display();
-            MotorOn();
+                case 'b':
+                LCDMenu();
+                device.printf("Ligou o motor! \r\n"); 
+                gOled1.printf("MotorOn. \r\n");
+                gOled1.display();
+                MotorOn();
             break;
-            case 'l':
-            //lcd.cls();
-            //lcd.locate(0,15);
-            //lcd.printf("Lights on!");
-            LCDMenu(); 
-            gOled1.printf("Luz. \r\n");
-            gOled1.display();
-            device.printf("Intensidade: %.2f \r\n",ReadLum());
-            //device.printf("Intensidade de luz");
+                case 'l':
+                LCDMenu(); 
+                gOled1.printf("Luz. \r\n");
+                gOled1.display();
+                device.printf("Intensidade: %.2f \r\n",ReadLum());
             break;
-            case 's':
-            LCDMenu();
-            device.printf("Sobe boneco! \r\n");
-            gOled1.printf("Sobe Boneco. \r\n");
-            gOled1.display();
-            servoMotor.write(1);
+                case 's':
+                LCDMenu();
+                device.printf("Sobe boneco! \r\n");
+                gOled1.printf("Sobe Boneco. \r\n");
+                gOled1.display();
+                servoMotor.write(1);
             break;
-            case 'd':
-            LCDMenu();
-            device.printf("Desce bonceo! \r\n");
-            gOled1.printf("Desce Boneco. \r\n");
-            gOled1.display();
-            servoMotor.write(0);
+                case 'd':
+                LCDMenu();
+                device.printf("Desce bonceo! \r\n");
+                gOled1.printf("Desce Boneco. \r\n");
+                gOled1.display();
+                servoMotor.write(0);
             break;
-            default:
-            myLed1 = 1;
-            myLed2 = 0;
-            myLed3 = 1;
+                default:
+                myLed1 = 1;
+                myLed2 = 0;
+                myLed3 = 1;
             break;
         }
         
     }else{    
-    myLed1 = 0;
-    myLed2 = 1;
-    myLed3 = 0;
+        myLed1 = 0;
+        myLed2 = 1;
+        myLed3 = 0;
     }    
 }
 
@@ -302,9 +267,12 @@ int main() {
     wait(5);
     
     while(1) {       
+        
         if(ReadRes() < 0.3){
             MotorPump();        
         }
+        
         wait(20);
+        
     }
 }
